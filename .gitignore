@@ -1,0 +1,7 @@
+# IDE / 工具产生的本地目录
+.codebuddy/
+.playwright-cli/
+
+# 系统文件
+Thumbs.db
+.DS_Store

@@ -21,6 +21,7 @@
   const headingMenu = document.getElementById('headingMenu');
   const gutter = document.getElementById('gutter');
   const mirror = document.getElementById('mirror');
+  const mobileSwitcher = document.getElementById('mobileSwitcher');
 
   const STORAGE_KEY = 'md-editor:content';
   const THEME_KEY = 'md-editor:theme';
@@ -430,6 +431,12 @@ ${preview.innerHTML}
     applyView(view);
   }
   function applyView(view) {
+    // 手机竖屏为单屏模式：分栏回退为编辑视图（横屏仍可分栏，由 CSS 控制）
+    const mobilePortrait =
+      window.matchMedia('(max-width: 640px)').matches &&
+      window.matchMedia('(orientation: portrait)').matches;
+    if (mobilePortrait && view === 'split') view = 'edit';
+
     if (view === 'edit') {
       paneEdit.style.flex = '1 1 100%';
       panePreview.style.display = 'none';
@@ -445,8 +452,34 @@ ${preview.innerHTML}
       paneEdit.style.flex = '1 1 ' + (parseInt(localStorage.getItem('md-editor:split') || '50', 10)) + '%';
       panePreview.style.flex = '1 1 auto';
     }
+
+    // 同步移动端分段切换控件的选中态
+    document.body.dataset.view = view;
+    mobileSwitcher.querySelectorAll('[data-view]').forEach((b) => {
+      const active = b.dataset.view === view;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-selected', String(active));
+    });
   }
   applyView(localStorage.getItem(VIEW_KEY) || 'split');
+
+  // 移动端分段切换控件
+  mobileSwitcher.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-view]');
+    if (btn) setView(btn.dataset.view);
+  });
+
+  // 断点/方向变化时重新应用视图（如竖屏分栏回退编辑、旋转后恢复分栏）
+  const mobileMq = window.matchMedia('(max-width: 640px)');
+  const portraitMq = window.matchMedia('(orientation: portrait)');
+  const onViewMediaChange = () => applyView(localStorage.getItem(VIEW_KEY) || 'split');
+  if (mobileMq.addEventListener) {
+    mobileMq.addEventListener('change', onViewMediaChange);
+    portraitMq.addEventListener('change', onViewMediaChange);
+  } else {
+    mobileMq.addListener(onViewMediaChange);
+    portraitMq.addListener(onViewMediaChange);
+  }
 
   /* ---------- 拖动分栏 ---------- */
   let dragging = false;

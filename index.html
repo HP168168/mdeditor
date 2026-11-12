@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MD Editor - 免费在线 Markdown 编辑器 | 实时预览 · 同步滚动 · 行号 · 本地保存</title>
 
   <!-- SEO：核心元信息 -->
@@ -34,7 +34,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
-  <link rel="stylesheet" href="style.css?v=1.1" />
+  <link rel="stylesheet" href="style.css?v=1.3" />
 
   <!-- 结构化数据：WebApplication（帮助搜索引擎与 AI 引擎理解产品） -->
   <script type="application/ld+json">
@@ -102,7 +102,14 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "zckbymdx2e");
 </script>
-  
+
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TN8DS5B3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+
 </head>
 <body>
   <!-- SEO/GEO：页面主标题（仅对搜索引擎、屏幕阅读器可见） -->
@@ -220,6 +227,13 @@
 
   <input type="file" id="fileInput" accept=".md,.markdown,.txt" hidden />
 
+  <!-- 移动端视图切换控件（桌面端隐藏，手机横屏显示"分屏"） -->
+  <div class="mobile-view-switcher" id="mobileSwitcher" role="tablist" aria-label="编辑/预览视图切换">
+    <button class="seg-btn" data-view="edit" role="tab" aria-selected="true">✍️ 编辑</button>
+    <button class="seg-btn" data-view="preview" role="tab" aria-selected="false">👁️ 预览</button>
+    <button class="seg-btn seg-split" data-view="split" role="tab" aria-selected="false">◫ 分屏</button>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js" defer></script>
@@ -231,6 +245,6 @@
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/json.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/bash.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/sql.min.js" defer></script>
-  <script src="app.js?v=1.2" defer></script>
+  <script src="app.js?v=1.5" defer></script>
 </body>
 </html>

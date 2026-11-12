@@ -1,0 +1,382 @@
+:root {
+  --bg: #f6f8fa;
+  --panel: #ffffff;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --text-dim: #656d76;
+  --accent: #0969da;
+  --accent-soft: #ddf4ff;
+  --hover: #f3f4f6;
+  --dragbar: transparent;
+  --dragbar-hover: var(--accent);
+  --radius: 8px;
+  --topbar-h: 48px;
+  --toolbar-h: 40px;
+  --statusbar-h: 28px;
+}
+
+html[data-theme='dark'] {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-dim: #8b949e;
+  --accent: #58a6ff;
+  --accent-soft: #1f3a5f;
+  --hover: #21262d;
+  --dragbar-hover: var(--accent);
+}
+
+* { box-sizing: border-box; }
+
+/* 仅对搜索引擎/屏幕阅读器可见的主标题 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s, color 0.2s;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  height: var(--topbar-h);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+
+.logo { font-weight: 700; font-size: 16px; user-select: none; }
+.logo span { color: var(--accent); }
+
+.menus { display: flex; gap: 4px; }
+
+.menu { position: relative; }
+
+.menu-btn {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.menu-btn:hover, .menu.open .menu-btn { background: var(--hover); }
+
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 180px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 100;
+}
+.menu.open .menu-dropdown { display: block; }
+
+.menu-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.menu-dropdown button:hover { background: var(--accent-soft); color: var(--accent); }
+
+.sync-scroll-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.icon-btn:hover { background: var(--hover); }
+
+/* ---------- 工具栏 ---------- */
+.toolbar {
+  height: var(--toolbar-h);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 8px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.toolbar button {
+  min-width: 34px;
+  height: 28px;
+  padding: 0 6px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.toolbar button:hover { background: var(--accent-soft); color: var(--accent); }
+
+.toolbar .sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 6px;
+  flex: 0 0 auto;
+}
+
+/* 工具栏下拉（标题 H1-H6） */
+.toolbar.dropdown-open { overflow: visible; }
+
+.toolbar-dropdown {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.toolbar-dropbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.toolbar-dropbtn .caret {
+  font-size: 9px;
+  color: var(--text-dim);
+  transition: transform 0.15s;
+}
+.toolbar-dropdown.open .toolbar-dropbtn {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.toolbar-dropdown.open .caret { transform: rotate(180deg); }
+
+.toolbar-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 168px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  z-index: 200;
+}
+.toolbar-dropdown.open .toolbar-dropdown-menu { display: block; }
+
+.toolbar-dropdown-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+}
+.toolbar-dropdown-menu button:hover { background: var(--accent-soft); }
+
+.toolbar-dropdown-menu .hd {
+  width: 26px;
+  font-weight: 700;
+  color: var(--text-dim);
+  flex: 0 0 auto;
+  line-height: 1.4;
+}
+.toolbar-dropdown-menu .hd1 { font-size: 18px; }
+.toolbar-dropdown-menu .hd2 { font-size: 16px; }
+.toolbar-dropdown-menu .hd3 { font-size: 15px; }
+.toolbar-dropdown-menu .hd4 { font-size: 14px; }
+.toolbar-dropdown-menu .hd5 { font-size: 13px; }
+.toolbar-dropdown-menu .hd6 { font-size: 12px; }
+
+.toolbar-dropdown-menu .hd-text {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.toolbar-dropdown-menu button.is-active {
+  background: var(--accent-soft);
+}
+.toolbar-dropdown-menu button.is-active .hd,
+.toolbar-dropdown-menu button.is-active .hd-text {
+  color: var(--accent);
+}
+
+/* ---------- 主体 ---------- */
+.workspace {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+.pane {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pane-edit { background: var(--panel); }
+
+.pane-preview {
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+.editor-wrap {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+}
+
+/* 行号栏 */
+.gutter {
+  flex: 0 0 auto;
+  width: 52px;
+  padding: 20px 10px 20px 0;
+  overflow: hidden;
+  text-align: right;
+  background: var(--panel);
+  color: var(--text-dim);
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+  user-select: none;
+  border-right: 1px solid var(--border);
+}
+
+#editor {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 20px 24px 20px 12px;
+  background: var(--panel);
+  color: var(--text);
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  tab-size: 4;
+}
+
+/* 隐藏的镜像层：用于测量每行折行后的真实高度 */
+.mirror {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+#preview { padding: 20px 32px; }
+
+.dragbar {
+  flex: 0 0 6px;
+  cursor: col-resize;
+  background: var(--dragbar);
+  transition: background 0.15s;
+}
+.dragbar:hover, .dragbar.dragging { background: var(--dragbar-hover); }
+
+/* ---------- 状态栏 ---------- */
+.statusbar {
+  height: var(--statusbar-h);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 16px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  user-select: none;
+}
+
+#saveStatus.dirty { color: #d29922; }
+
+/* ---------- 预览内代码高亮（暗色适配） ---------- */
+html[data-theme='dark'] .markdown-body {
+  color-scheme: dark;
+}
+html[data-theme='dark'] .markdown-body pre,
+html[data-theme='dark'] .markdown-body code {
+  background: #161b22;
+}
+html[data-theme='dark'] .markdown-body table tr {
+  background-color: transparent;
+}
+html[data-theme='dark'] .markdown-body table tr:nth-child(2n) {
+  background-color: #161b22;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+  .sync-scroll-toggle { display: none; }
+  .workspace { flex-direction: column; }
+  .pane { flex: 1 1 50% !important; }
+  .dragbar { display: none; }
+  #editor, #preview { padding: 12px 16px; }
+}

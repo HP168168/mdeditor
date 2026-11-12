@@ -1,0 +1,44 @@
+# MD Editor
+
+> 免费开源、无需登录的在线 Markdown 编辑器。纯前端实现，内容仅保存在用户浏览器本地，不上传服务器。
+
+## 是什么（What）
+
+MD Editor 是一个单页 Web 应用：左侧为带行号的 Markdown 编辑区，右侧为 GitHub 风格的实时预览区。适合写作、技术文档撰写与快速格式转换。
+
+## 核心功能（Features）
+
+- 左侧编辑、右侧实时预览（GitHub 风格渲染，GFM 表格/任务列表）
+- 编辑区与预览区比例同步滚动（可开关）
+- 编辑器行号显示，长段落自动折行时行号精确对齐
+- 工具栏：粗体、斜体、删除线、H1–H6（下拉选择）、引用、有序/无序列表、任务列表、链接、图片、行内代码、代码块、表格、分割线
+- 代码语法高亮：JavaScript、TypeScript、Python、CSS、HTML、JSON、Bash、SQL
+- 明暗主题切换，跟随系统偏好
+- 内容自动保存到浏览器 localStorage，刷新不丢失
+- 文件操作：新建、打开本地 .md、下载 .md、下载带样式 .html、复制渲染 HTML
+- 支持拖动调整编辑/预览分栏宽度；移动端自动上下布局
+
+## 快捷键（Shortcuts）
+
+| 快捷键 | 功能 |
+| --- | --- |
+| Ctrl+B | 粗体 |
+| Ctrl+I | 斜体 |
+| Ctrl+K | 插入链接 |
+| Ctrl+S | 保存到本地 |
+| Ctrl+Z / Ctrl+Shift+Z | 撤销 / 重做 |
+| Ctrl+/ | 插入 HTML 注释 |
+| Tab / Shift+Tab | 缩进 / 取消缩进 |
+
+## 隐私（Privacy）
+
+- 纯前端架构：无后端、无账号体系、无数据上传
+- 用户内容仅存于浏览器 localStorage，可随时清空
+
+## 技术栈（Tech）
+
+原生 HTML/CSS/JavaScript，marked（Markdown 解析）、highlight.js（代码高亮）、DOMPurify（XSS 过滤），通过 jsDelivr CDN 加载。
+
+## 链接（Links）
+
+- [在线使用](https://mdeditor.us.ci/)

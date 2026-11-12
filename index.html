@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MD Editor - 免费在线 Markdown 编辑器 | 实时预览 · 同步滚动 · 行号 · 本地保存</title>
+
+  <!-- SEO：核心元信息 -->
+  <meta name="description" content="MD Editor 是一款免费、无需登录的在线 Markdown 编辑器：左侧编辑、右侧实时预览，支持同步滚动、行号显示、代码高亮、H1-H6 标题工具栏、明暗主题，内容自动保存在本地浏览器，可一键导出 .md 与 .html 文件。" />
+  <meta name="keywords" content="Markdown编辑器,在线Markdown编辑器,免费Markdown,实时预览,同步滚动,代码高亮,Markdown导出HTML,MD Editor" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="author" content="MD Editor" />
+  <link rel="canonical" href="https://mdeditor.us.ci/" />
+
+  <!-- Open Graph（社交/搜索卡片） -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MD Editor" />
+  <meta property="og:title" content="MD Editor - 免费在线 Markdown 编辑器" />
+  <meta property="og:description" content="左侧编辑、右侧实时预览的免费在线 Markdown 编辑器，支持同步滚动、行号、代码高亮、明暗主题与本地自动保存。" />
+  <meta property="og:url" content="https://mdeditor.us.ci/" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="MD Editor - 免费在线 Markdown 编辑器" />
+  <meta name="twitter:description" content="免费、无需登录的在线 Markdown 编辑器：实时预览、同步滚动、行号、代码高亮、导出 .md/.html。" />
+
+  <meta name="theme-color" content="#0969da" />
+
+  <!-- 性能：CDN 预连接（提升首屏与 LCP） -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
+  <link rel="stylesheet" href="style.css?v=1.1" />
+
+  <!-- 结构化数据：WebApplication（帮助搜索引擎与 AI 引擎理解产品） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MD Editor",
+    "alternateName": "MD Editor 在线 Markdown 编辑器",
+    "url": "https://mdeditor.us.ci/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any (Web Browser)",
+    "browserRequirements": "Requires JavaScript",
+    "inLanguage": "zh-CN",
+    "isAccessibleForFree": true,
+    "description": "免费、无需登录的在线 Markdown 编辑器，提供实时预览、同步滚动、行号显示、代码高亮、明暗主题与本地自动保存，支持导出 .md 与 .html。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": [
+      "左侧编辑右侧实时预览",
+      "编辑区与预览区同步滚动",
+      "行号显示（支持自动折行对齐）",
+      "代码语法高亮",
+      "H1-H6 标题工具栏下拉",
+      "明暗主题切换",
+      "内容自动保存到浏览器本地",
+      "导出 .md / .html、复制渲染 HTML",
+      "常用 Markdown 快捷键"
+    ]
+  }
+  </script>
+
+  <!-- 结构化数据：FAQ（GEO：便于生成式引擎直接引用答案） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "MD Editor 是免费的吗？需要注册吗？",
+        "acceptedAnswer": { "@type": "Answer", "text": "MD Editor 完全免费，无需注册或登录，打开网页即可使用全部功能。" }
+      },
+      {
+        "@type": "Question",
+        "name": "我的 Markdown 内容会被上传到服务器吗？",
+        "acceptedAnswer": { "@type": "Answer", "text": "不会。MD Editor 是纯前端应用，所有内容只保存在你浏览器的 localStorage 中，不会上传到任何服务器，刷新页面也不会丢失。" }
+      },
+      {
+        "@type": "Question",
+        "name": "MD Editor 支持哪些导出格式？",
+        "acceptedAnswer": { "@type": "Answer", "text": "支持下载 .md 源文件、下载带样式的 .html 文件，以及一键复制渲染后的 HTML 代码。" }
+      },
+      {
+        "@type": "Question",
+        "name": "MD Editor 支持哪些快捷键？",
+        "acceptedAnswer": { "@type": "Answer", "text": "Ctrl+B 粗体、Ctrl+I 斜体、Ctrl+K 链接、Ctrl+S 保存、Ctrl+Z / Ctrl+Shift+Z 撤销重做、Ctrl+/ 注释、Tab / Shift+Tab 缩进。" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- SEO/GEO：页面主标题（仅对搜索引擎、屏幕阅读器可见） -->
+  <h1 class="sr-only">免费在线 Markdown 编辑器 - MD Editor：实时预览、同步滚动、行号显示、代码高亮、本地保存</h1>
+
+  <!-- SEO/GEO：JS 不可用时的兜底内容，保证爬虫可抓取事实性描述 -->
+  <noscript>
+    <section>
+      <h2>MD Editor 是什么？</h2>
+      <p>MD Editor 是一款免费、无需登录的在线 Markdown 编辑器。左侧编辑、右侧实时预览，内容仅保存在本地浏览器，不上传服务器。</p>
+      <ul>
+        <li>实时预览与同步滚动</li>
+        <li>行号显示（支持自动折行对齐）</li>
+        <li>代码语法高亮与表格、任务列表</li>
+        <li>明暗主题切换</li>
+        <li>自动保存到浏览器 localStorage</li>
+        <li>导出 .md / .html，复制渲染 HTML</li>
+        <li>快捷键：Ctrl+B 粗体、Ctrl+I 斜体、Ctrl+K 链接、Ctrl+S 保存</li>
+      </ul>
+      <p>启用 JavaScript 后即可开始使用。</p>
+    </section>
+  </noscript>
+
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">📝 <span>MD Editor</span></div>
+      <nav class="menus">
+        <div class="menu" id="fileMenu">
+          <button class="menu-btn">文件 ▾</button>
+          <div class="menu-dropdown">
+            <button data-action="new">新建文件</button>
+            <button data-action="open">打开 .md 文件…</button>
+            <button data-action="save-md">下载 .md</button>
+            <button data-action="save-html">下载 .html</button>
+            <button data-action="copy-html">复制渲染 HTML</button>
+          </div>
+        </div>
+        <div class="menu" id="viewMenu">
+          <button class="menu-btn">视图 ▾</button>
+          <div class="menu-dropdown">
+            <button data-action="toggle-edit">只看编辑区</button>
+            <button data-action="toggle-preview">只看预览区</button>
+            <button data-action="toggle-split">分栏视图</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="topbar-right">
+      <label class="sync-scroll-toggle" title="编辑区与预览区同步滚动">
+        <input type="checkbox" id="syncScroll" checked /> 同步滚动
+      </label>
+      <button class="icon-btn" id="themeToggle" title="切换明暗主题">🌙</button>
+    </div>
+  </header>
+
+  <!-- 工具栏 -->
+  <div class="toolbar" id="toolbar">
+    <button data-cmd="bold" title="粗体 (Ctrl+B)"><b>B</b></button>
+    <button data-cmd="italic" title="斜体 (Ctrl+I)"><i>I</i></button>
+    <button data-cmd="strike" title="删除线"><s>S</s></button>
+    <span class="sep"></span>
+    <div class="toolbar-dropdown" id="headingDropdown">
+      <button class="toolbar-dropbtn" id="headingBtn" title="标题 H1-H6">
+        <span id="headingLabel">标题</span><span class="caret">▾</span>
+      </button>
+      <div class="toolbar-dropdown-menu" id="headingMenu">
+        <button data-heading="1"><span class="hd hd1">H1</span><span class="hd-text">一级标题</span></button>
+        <button data-heading="2"><span class="hd hd2">H2</span><span class="hd-text">二级标题</span></button>
+        <button data-heading="3"><span class="hd hd3">H3</span><span class="hd-text">三级标题</span></button>
+        <button data-heading="4"><span class="hd hd4">H4</span><span class="hd-text">四级标题</span></button>
+        <button data-heading="5"><span class="hd hd5">H5</span><span class="hd-text">五级标题</span></button>
+        <button data-heading="6"><span class="hd hd6">H6</span><span class="hd-text">六级标题</span></button>
+      </div>
+    </div>
+    <span class="sep"></span>
+    <button data-cmd="quote" title="引用">❝</button>
+    <button data-cmd="ul" title="无序列表">•≡</button>
+    <button data-cmd="ol" title="有序列表">1≡</button>
+    <button data-cmd="task" title="任务列表">☑</button>
+    <span class="sep"></span>
+    <button data-cmd="link" title="链接 (Ctrl+K)">🔗</button>
+    <button data-cmd="image" title="图片">🖼</button>
+    <button data-cmd="code" title="行内代码">&lt;/&gt;</button>
+    <button data-cmd="codeblock" title="代码块">{ }</button>
+    <button data-cmd="table" title="表格">▦</button>
+    <button data-cmd="hr" title="分割线">―</button>
+    <span class="sep"></span>
+    <button data-cmd="undo" title="撤销 (Ctrl+Z)">↩</button>
+    <button data-cmd="redo" title="重做 (Ctrl+Shift+Z)">↪</button>
+    <button data-cmd="clear" title="清空内容">🗑</button>
+  </div>
+
+  <!-- 主体：编辑区 + 预览区 -->
+  <main class="workspace" id="workspace">
+    <section class="pane pane-edit" id="paneEdit">
+      <div class="editor-wrap">
+        <div class="gutter" id="gutter" aria-hidden="true"></div>
+        <textarea id="editor" spellcheck="false" placeholder="# 在这里输入 Markdown…" aria-label="Markdown 编辑区"></textarea>
+        <div class="mirror" id="mirror" aria-hidden="true"></div>
+      </div>
+    </section>
+    <div class="dragbar" id="dragbar" title="拖动调整分栏宽度"></div>
+    <section class="pane pane-preview" id="panePreview">
+      <article id="preview" class="markdown-body" aria-label="预览区"></article>
+    </section>
+  </main>
+
+  <!-- 状态栏 -->
+  <footer class="statusbar">
+    <span id="saveStatus">已保存</span>
+    <span id="charCount">0 字</span>
+    <span id="cursorPos">行 1, 列 1</span>
+  </footer>
+
+  <input type="file" id="fileInput" accept=".md,.markdown,.txt" hidden />
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/javascript.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/typescript.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/css.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/xml.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/sql.min.js" defer></script>
+  <script src="app.js?v=1.2" defer></script>
+</body>
+</html>

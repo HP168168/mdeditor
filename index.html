@@ -34,7 +34,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
-  <link rel="stylesheet" href="style.css?v=1.3" />
+  <link rel="stylesheet" href="style.css?v=1.4" />
 
   <!-- 结构化数据：WebApplication（帮助搜索引擎与 AI 引擎理解产品） -->
   <script type="application/ld+json">
@@ -139,68 +139,69 @@
       <div class="logo">📝 <span>MD Editor</span></div>
       <nav class="menus">
         <div class="menu" id="fileMenu">
-          <button class="menu-btn">文件 ▾</button>
+          <button class="menu-btn" data-i18n="menu.file">文件 ▾</button>
           <div class="menu-dropdown">
-            <button data-action="new">新建文件</button>
-            <button data-action="open">打开 .md 文件…</button>
-            <button data-action="save-md">下载 .md</button>
-            <button data-action="save-html">下载 .html</button>
-            <button data-action="copy-html">复制渲染 HTML</button>
+            <button data-action="new" data-i18n="file.new">新建文件</button>
+            <button data-action="open" data-i18n="file.open">打开 .md 文件…</button>
+            <button data-action="save-md" data-i18n="file.saveMd">下载 .md</button>
+            <button data-action="save-html" data-i18n="file.saveHtml">下载 .html</button>
+            <button data-action="copy-html" data-i18n="file.copyHtml">复制渲染 HTML</button>
           </div>
         </div>
         <div class="menu" id="viewMenu">
-          <button class="menu-btn">视图 ▾</button>
+          <button class="menu-btn" data-i18n="menu.view">视图 ▾</button>
           <div class="menu-dropdown">
-            <button data-action="toggle-edit">只看编辑区</button>
-            <button data-action="toggle-preview">只看预览区</button>
-            <button data-action="toggle-split">分栏视图</button>
+            <button data-action="toggle-edit" data-i18n="view.editOnly">只看编辑区</button>
+            <button data-action="toggle-preview" data-i18n="view.previewOnly">只看预览区</button>
+            <button data-action="toggle-split" data-i18n="view.split">分栏视图</button>
           </div>
         </div>
       </nav>
     </div>
     <div class="topbar-right">
-      <label class="sync-scroll-toggle" title="编辑区与预览区同步滚动">
-        <input type="checkbox" id="syncScroll" checked /> 同步滚动
+      <label class="sync-scroll-toggle" data-i18n-title="topbar.syncScrollTitle" title="编辑区与预览区同步滚动">
+        <input type="checkbox" id="syncScroll" checked /> <span data-i18n="topbar.syncScroll">同步滚动</span>
       </label>
-      <button class="icon-btn" id="themeToggle" title="切换明暗主题">🌙</button>
+      <button class="icon-btn" id="themeToggle" data-i18n-title="topbar.theme" title="切换明暗主题" aria-label="Toggle theme">🌙</button>
+      <button class="icon-btn lang-btn" id="langToggle" data-i18n-title="topbar.lang" title="切换语言">EN</button>
     </div>
   </header>
 
   <!-- 工具栏 -->
   <div class="toolbar" id="toolbar">
-    <button data-cmd="bold" title="粗体 (Ctrl+B)"><b>B</b></button>
-    <button data-cmd="italic" title="斜体 (Ctrl+I)"><i>I</i></button>
-    <button data-cmd="strike" title="删除线"><s>S</s></button>
+    <button data-cmd="bold" data-i18n-title="toolbar.bold" title="粗体 (Ctrl+B)"><b>B</b></button>
+    <button data-cmd="italic" data-i18n-title="toolbar.italic" title="斜体 (Ctrl+I)"><i>I</i></button>
+    <button data-cmd="strike" data-i18n-title="toolbar.strike" title="删除线"><s>S</s></button>
     <span class="sep"></span>
     <div class="toolbar-dropdown" id="headingDropdown">
-      <button class="toolbar-dropbtn" id="headingBtn" title="标题 H1-H6">
-        <span id="headingLabel">标题</span><span class="caret">▾</span>
+      <button class="toolbar-dropbtn" id="headingBtn" data-i18n-title="toolbar.heading" title="标题 H1-H6">
+        <span id="headingLabel" data-i18n="heading.label">标题</span><span class="caret">▾</span>
       </button>
       <div class="toolbar-dropdown-menu" id="headingMenu">
-        <button data-heading="1"><span class="hd hd1">H1</span><span class="hd-text">一级标题</span></button>
-        <button data-heading="2"><span class="hd hd2">H2</span><span class="hd-text">二级标题</span></button>
-        <button data-heading="3"><span class="hd hd3">H3</span><span class="hd-text">三级标题</span></button>
-        <button data-heading="4"><span class="hd hd4">H4</span><span class="hd-text">四级标题</span></button>
-        <button data-heading="5"><span class="hd hd5">H5</span><span class="hd-text">五级标题</span></button>
-        <button data-heading="6"><span class="hd hd6">H6</span><span class="hd-text">六级标题</span></button>
+        <button data-heading="1"><span class="hd hd1">H1</span><span class="hd-text" data-i18n="heading.h1">一级标题</span></button>
+        <button data-heading="2"><span class="hd hd2">H2</span><span class="hd-text" data-i18n="heading.h2">二级标题</span></button>
+        <button data-heading="3"><span class="hd hd3">H3</span><span class="hd-text" data-i18n="heading.h3">三级标题</span></button>
+        <button data-heading="4"><span class="hd hd4">H4</span><span class="hd-text" data-i18n="heading.h4">四级标题</span></button>
+        <button data-heading="5"><span class="hd hd5">H5</span><span class="hd-text" data-i18n="heading.h5">五级标题</span></button>
+        <button data-heading="6"><span class="hd hd6">H6</span><span class="hd-text" data-i18n="heading.h6">六级标题</span></button>
       </div>
     </div>
     <span class="sep"></span>
-    <button data-cmd="quote" title="引用">❝</button>
-    <button data-cmd="ul" title="无序列表">•≡</button>
-    <button data-cmd="ol" title="有序列表">1≡</button>
-    <button data-cmd="task" title="任务列表">☑</button>
+    <button data-cmd="quote" data-i18n-title="toolbar.quote" title="引用">❝</button>
+    <button data-cmd="ul" data-i18n-title="toolbar.ul" title="无序列表">•≡</button>
+    <button data-cmd="ol" data-i18n-title="toolbar.ol" title="有序列表">1≡</button>
+    <button data-cmd="task" data-i18n-title="toolbar.task" title="任务列表">☑</button>
     <span class="sep"></span>
-    <button data-cmd="link" title="链接 (Ctrl+K)">🔗</button>
-    <button data-cmd="image" title="图片">🖼</button>
-    <button data-cmd="code" title="行内代码">&lt;/&gt;</button>
-    <button data-cmd="codeblock" title="代码块">{ }</button>
-    <button data-cmd="table" title="表格">▦</button>
-    <button data-cmd="hr" title="分割线">―</button>
+    <button data-cmd="link" data-i18n-title="toolbar.link" title="链接 (Ctrl+K)">🔗</button>
+    <button data-cmd="image" data-i18n-title="toolbar.image" title="图片">🖼</button>
+    <button data-cmd="code" data-i18n-title="toolbar.code" title="行内代码">&lt;/&gt;</button>
+    <button data-cmd="codeblock" data-i18n-title="toolbar.codeblock" title="代码块">{ }</button>
+    <button data-cmd="table" data-i18n-title="toolbar.table" title="表格">▦</button>
+    <button data-cmd="hr" data-i18n-title="toolbar.hr" title="分割线">―</button>
     <span class="sep"></span>
-    <button data-cmd="undo" title="撤销 (Ctrl+Z)">↩</button>
-    <button data-cmd="redo" title="重做 (Ctrl+Shift+Z)">↪</button>
-    <button data-cmd="clear" title="清空内容">🗑</button>
+    <button data-cmd="undo" data-i18n-title="toolbar.undo" title="撤销 (Ctrl+Z)">↩</button>
+    <button data-cmd="redo" data-i18n-title="toolbar.redo" title="重做 (Ctrl+Shift+Z)">↪</button>
+    <button data-cmd="clear" data-i18n-title="toolbar.clear" title="清空内容">🗑</button>
   </div>
 
   <!-- 主体：编辑区 + 预览区 -->
@@ -208,13 +209,13 @@
     <section class="pane pane-edit" id="paneEdit">
       <div class="editor-wrap">
         <div class="gutter" id="gutter" aria-hidden="true"></div>
-        <textarea id="editor" spellcheck="false" placeholder="# 在这里输入 Markdown…" aria-label="Markdown 编辑区"></textarea>
+        <textarea id="editor" spellcheck="false" data-i18n-placeholder="editor.placeholder" data-i18n-aria-label="editor.aria" placeholder="# 在这里输入 Markdown…" aria-label="Markdown 编辑区"></textarea>
         <div class="mirror" id="mirror" aria-hidden="true"></div>
       </div>
     </section>
-    <div class="dragbar" id="dragbar" title="拖动调整分栏宽度"></div>
+    <div class="dragbar" id="dragbar" data-i18n-title="dragbar.title" title="拖动调整分栏宽度"></div>
     <section class="pane pane-preview" id="panePreview">
-      <article id="preview" class="markdown-body" aria-label="预览区"></article>
+      <article id="preview" class="markdown-body" data-i18n-aria-label="preview.aria" aria-label="预览区"></article>
     </section>
   </main>
 
@@ -228,10 +229,10 @@
   <input type="file" id="fileInput" accept=".md,.markdown,.txt" hidden />
 
   <!-- 移动端视图切换控件（桌面端隐藏，手机横屏显示"分屏"） -->
-  <div class="mobile-view-switcher" id="mobileSwitcher" role="tablist" aria-label="编辑/预览视图切换">
-    <button class="seg-btn" data-view="edit" role="tab" aria-selected="true">✍️ 编辑</button>
-    <button class="seg-btn" data-view="preview" role="tab" aria-selected="false">👁️ 预览</button>
-    <button class="seg-btn seg-split" data-view="split" role="tab" aria-selected="false">◫ 分屏</button>
+  <div class="mobile-view-switcher" id="mobileSwitcher" role="tablist" data-i18n-aria-label="mobile.aria" aria-label="编辑/预览视图切换">
+    <button class="seg-btn" data-view="edit" role="tab" aria-selected="true">✍️ <span data-i18n="view.edit">编辑</span></button>
+    <button class="seg-btn" data-view="preview" role="tab" aria-selected="false">👁️ <span data-i18n="view.preview">预览</span></button>
+    <button class="seg-btn seg-split" data-view="split" role="tab" aria-selected="false">◫ <span data-i18n="view.splitMobile">分屏</span></button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js" defer></script>
@@ -245,6 +246,6 @@
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/json.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/bash.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/sql.min.js" defer></script>
-  <script src="app.js?v=1.5" defer></script>
+  <script src="app.js?v=1.6" defer></script>
 </body>
 </html>

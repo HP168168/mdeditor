@@ -2,6 +2,9 @@
 .codebuddy/
 .playwright-cli/
 
+# 临时脚本
+.serve-tmp.js
+
 # 系统文件
 Thumbs.db
 .DS_Store

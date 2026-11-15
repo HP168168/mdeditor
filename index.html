@@ -32,8 +32,17 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
+
+  <!-- 性能：预加载关键 CSS（缩短关键渲染链路） -->
+  <link rel="preload" href="style.css?v=1.4" as="style" />
+
+  <!-- 性能：非关键 CSS 异步加载（预览区首屏为空，不阻塞渲染） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
+  </noscript>
   <link rel="stylesheet" href="style.css?v=1.4" />
 
   <!-- 结构化数据：WebApplication（帮助搜索引擎与 AI 引擎理解产品） -->
@@ -95,19 +104,34 @@
   }
   </script>
 
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "zckbymdx2e");
-</script>
-
-<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TN8DS5B3"></script>
+<!-- 分析统计：延迟到页面空闲后再加载，避免阻塞 LCP/FCP（ PSI：未使用 JavaScript 优化项 ） -->
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  function gtag() { dataLayer.push(arguments); }
+  (function () {
+    var loaded = false;
+    function loadAnalytics() {
+      if (loaded) return;
+      loaded = true;
+      // Google Tag Manager
+      gtag('js', new Date());
+      var gtm = document.createElement('script');
+      gtm.async = true;
+      gtm.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TN8DS5B3';
+      document.head.appendChild(gtm);
+      // Microsoft Clarity
+      window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+      var clr = document.createElement('script');
+      clr.async = true;
+      clr.src = 'https://www.clarity.ms/tag/zckbymdx2e';
+      document.head.appendChild(clr);
+    }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadAnalytics, { timeout: 3000 });
+    } else {
+      setTimeout(loadAnalytics, 1500);
+    }
+  })();
 </script>
 
 </head>

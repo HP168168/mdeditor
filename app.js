@@ -20,6 +20,10 @@
   const headingBtn = document.getElementById('headingBtn');
   const headingLabel = document.getElementById('headingLabel');
   const headingMenu = document.getElementById('headingMenu');
+  const tableDropdown = document.getElementById('tableDropdown');
+  const tableBtn = document.getElementById('tableBtn');
+  const tableGrid = document.getElementById('tableGrid');
+  const tableSize = document.getElementById('tableSize');
   const gutter = document.getElementById('gutter');
   const mirror = document.getElementById('mirror');
   const mobileSwitcher = document.getElementById('mobileSwitcher');
@@ -97,8 +101,8 @@
       'ph.link': '链接文字',
       'ph.image': '图片描述',
       'ph.comment': '注释',
-      'table.template':
-        '| 表头一 | 表头二 | 表头三 |\n| ------ | ------ | ------ |\n| 内容 | 内容 | 内容 |',
+      'table.header': '表头',
+      'table.cell': '内容',
     },
     en: {
       'menu.file': 'File ▾',
@@ -164,8 +168,8 @@
       'ph.link': 'link text',
       'ph.image': 'image description',
       'ph.comment': 'comment',
-      'table.template':
-        '| Header 1 | Header 2 | Header 3 |\n| -------- | -------- | -------- |\n| Cell | Cell | Cell |',
+      'table.header': 'Header',
+      'table.cell': 'Cell',
     },
   };
   const SUPPORTED_LANGS = Object.keys(DICT);
@@ -399,6 +403,15 @@ greet('Markdown');
     onChange();
   }
 
+  // 按行列数生成 Markdown 表格
+  function tableTemplate(rows, cols) {
+    const line = (fill) => '| ' + Array.from({ length: cols }, fill).join(' | ') + ' |';
+    const head = line((_, i) => t('table.header') + ' ' + (i + 1));
+    const sep = line(() => '-'.repeat(6));
+    const body = Array.from({ length: Math.max(0, rows - 1) }, () => line(() => t('table.cell')));
+    return [head, sep].concat(body).join('\n');
+  }
+
   const commands = {
     bold: () => wrap('**', '**', t('ph.bold')),
     italic: () => wrap('*', '*', t('ph.italic')),
@@ -417,7 +430,7 @@ greet('Markdown');
     codeblock: () => wrap('\n```js\n', '\n```\n', t('ph.codeblock')),
     link: () => wrap('[', '](https://)', editor.value.slice(editor.selectionStart, editor.selectionEnd) || t('ph.link')),
     image: () => insertBlock('![' + t('ph.image') + '](https://)'),
-    table: () => insertBlock(t('table.template')),
+    table: (rows = 3, cols = 3) => insertBlock(tableTemplate(rows, cols)),
     hr: () => insertBlock('---'),
     undo: () => {
       editor.focus();
@@ -459,8 +472,86 @@ greet('Markdown');
     commands['h' + item.dataset.heading]();
   });
 
+  /* ---------- 表格下拉（拖动选择行列） ---------- */
+  const GRID_ROWS = 8;
+  const GRID_COLS = 8;
+  let tableCells = [];
+  (function buildTableGrid() {
+    const frag = document.createDocumentFragment();
+    for (let r = 1; r <= GRID_ROWS; r++) {
+      for (let c = 1; c <= GRID_COLS; c++) {
+        const cell = document.createElement('span');
+        cell.className = 'cell';
+        cell.dataset.r = r;
+        cell.dataset.c = c;
+        frag.appendChild(cell);
+      }
+    }
+    tableGrid.appendChild(frag);
+    tableCells = Array.prototype.slice.call(tableGrid.children);
+  })();
+
+  function openTableMenu(open) {
+    tableDropdown.classList.toggle('open', open);
+    toolbar.classList.toggle('dropdown-open', open);
+  }
+
+  function previewTable(rows, cols) {
+    tableSize.textContent = rows + ' × ' + cols;
+    tableCells.forEach((cell) =>
+      cell.classList.toggle('on', cell.dataset.r <= rows && cell.dataset.c <= cols)
+    );
+  }
+
+  function cellFromPoint(x, y) {
+    const el = document.elementFromPoint(x, y);
+    return el && el.classList.contains('cell') ? el : null;
+  }
+
+  let tableDragging = false;
+  tableBtn.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    e.preventDefault();
+    const open = !tableDropdown.classList.contains('open');
+    openTableMenu(open);
+    tableDragging = open;
+    if (open) previewTable(3, 3);
+  });
+  // 按住拖动：实时高亮预览行列范围
+  window.addEventListener('pointermove', (e) => {
+    if (!tableDragging) return;
+    const cell = cellFromPoint(e.clientX, e.clientY);
+    if (cell) previewTable(+cell.dataset.r, +cell.dataset.c);
+  });
+  // 松手：落在网格上则按所选行列插入，否则保持打开供悬停选择
+  window.addEventListener('pointerup', (e) => {
+    if (!tableDragging) return;
+    tableDragging = false;
+    const cell = cellFromPoint(e.clientX, e.clientY);
+    if (cell) {
+      openTableMenu(false);
+      commands.table(+cell.dataset.r, +cell.dataset.c);
+    }
+  });
+  // 菜单打开后也可悬停预览、单击插入
+  tableGrid.addEventListener('mouseover', (e) => {
+    const cell = e.target.closest('.cell');
+    if (cell) previewTable(+cell.dataset.r, +cell.dataset.c);
+  });
+  tableGrid.addEventListener('click', (e) => {
+    const cell = e.target.closest('.cell');
+    if (!cell) return;
+    openTableMenu(false);
+    commands.table(+cell.dataset.r, +cell.dataset.c);
+  });
+  // 按钮点击不冒泡到 document 的“点击外部关闭”逻辑
+  tableBtn.addEventListener('click', (e) => e.stopPropagation());
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') openHeadingMenu(false);
+    if (e.key === 'Escape') {
+      openHeadingMenu(false);
+      openTableMenu(false);
+    }
   });
 
   /* ---------- 行号栏（支持自动折行的精确对齐） ---------- */
@@ -591,6 +682,7 @@ greet('Markdown');
   document.addEventListener('click', () => {
     document.querySelectorAll('.menu.open').forEach((m) => m.classList.remove('open'));
     openHeadingMenu(false);
+    openTableMenu(false);
   });
 
   function download(filename, content, type) {

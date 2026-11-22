@@ -34,7 +34,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
 
   <!-- 性能：预加载关键 CSS（缩短关键渲染链路） -->
-  <link rel="preload" href="style.css?v=1.4" as="style" />
+  <link rel="preload" href="style.css?v=1.5" as="style" />
 
   <!-- 性能：非关键 CSS 异步加载（预览区首屏为空，不阻塞渲染） -->
   <!-- 预览区样式按应用主题切换：light 默认启用，dark 由 JS 控制启停 -->
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />
   </noscript>
-  <link rel="stylesheet" href="style.css?v=1.4" />
+  <link rel="stylesheet" href="style.css?v=1.5" />
 
   <!-- 结构化数据：WebApplication（帮助搜索引擎与 AI 引擎理解产品） -->
   <script type="application/ld+json">
@@ -223,7 +223,13 @@
     <button data-cmd="image" data-i18n-title="toolbar.image" title="图片">🖼</button>
     <button data-cmd="code" data-i18n-title="toolbar.code" title="行内代码">&lt;/&gt;</button>
     <button data-cmd="codeblock" data-i18n-title="toolbar.codeblock" title="代码块">{ }</button>
-    <button data-cmd="table" data-i18n-title="toolbar.table" title="表格">▦</button>
+    <div class="toolbar-dropdown" id="tableDropdown">
+      <button class="toolbar-dropbtn" id="tableBtn" data-i18n-title="toolbar.table" title="表格">▦<span class="caret">▾</span></button>
+      <div class="toolbar-dropdown-menu table-picker" id="tableMenu">
+        <div class="table-grid" id="tableGrid" aria-hidden="true"></div>
+        <div class="table-size" id="tableSize">3 × 3</div>
+      </div>
+    </div>
     <button data-cmd="hr" data-i18n-title="toolbar.hr" title="分割线">―</button>
     <span class="sep"></span>
     <button data-cmd="undo" data-i18n-title="toolbar.undo" title="撤销 (Ctrl+Z)">↩</button>
@@ -273,6 +279,6 @@
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/json.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/bash.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/languages/sql.min.js" defer></script>
-  <script src="app.js?v=1.6" defer></script>
+  <script src="app.js?v=1.7" defer></script>
 </body>
 </html>

@@ -251,6 +251,32 @@ body {
   flex: 0 0 auto;
   line-height: 1.4;
 }
+
+/* ---------- 表格行列选择器 ---------- */
+.toolbar-dropdown-menu.table-picker { padding: 10px; user-select: none; }
+.table-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 18px);
+  grid-auto-rows: 18px;
+  gap: 3px;
+  cursor: pointer;
+}
+.table-grid .cell {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--hover);
+}
+.table-grid .cell.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.table-size {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
 .toolbar-dropdown-menu .hd1 { font-size: 18px; }
 .toolbar-dropdown-menu .hd2 { font-size: 16px; }
 .toolbar-dropdown-menu .hd3 { font-size: 15px; }

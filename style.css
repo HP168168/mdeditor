@@ -175,6 +175,12 @@ body {
   white-space: nowrap;
 }
 
+/* 工具栏内联 SVG 图标（引用按钮）：与文本按钮垂直居中对齐 */
+.toolbar button .cmd-icon {
+  display: block;
+  margin: 0 auto;
+}
+
 .toolbar .sep {
   width: 1px;
   height: 18px;

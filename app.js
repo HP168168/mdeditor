@@ -419,6 +419,14 @@ greet('Markdown');
     image: () => insertBlock('![' + t('ph.image') + '](https://)'),
     table: () => insertBlock(t('table.template')),
     hr: () => insertBlock('---'),
+    undo: () => {
+      editor.focus();
+      if (!document.execCommand('undo')) onChange();
+    },
+    redo: () => {
+      editor.focus();
+      if (!document.execCommand('redo')) onChange();
+    },
     clear: () => {
       if (confirm(t('confirm.clear'))) {
         editor.value = '';

@@ -353,6 +353,18 @@ greet('Markdown');
     onChange();
   }
 
+  // 向上查找紧邻的有序列表行，返回延续的起始编号；若上方不是列表则从 1 开始
+  function nextOlNumber(value, pos) {
+    const lines = value.slice(0, pos).split('\n');
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const l = lines[i];
+      if (l.trim() === '') continue;
+      const m = l.match(/^\s*(\d+)\.\s/);
+      return m ? parseInt(m[1], 10) + 1 : 1;
+    }
+    return 1;
+  }
+
   function linePrefix(prefix, { numbered = false } = {}) {
     const value = editor.value;
     const start = editor.selectionStart;
@@ -361,14 +373,15 @@ greet('Markdown');
     const lineEnd = value.indexOf('\n', end) === -1 ? value.length : value.indexOf('\n', end);
     const block = value.slice(lineStart, lineEnd) || '';
     const lines = block.split('\n');
+    const olRe = /^\s*\d+\.\s/;
     let allHave = true;
-    lines.forEach((l, i) => {
-      const p = numbered ? i + 1 + '. ' : prefix;
-      if (!l.startsWith(p)) allHave = false;
+    lines.forEach((l) => {
+      if (numbered ? !olRe.test(l) : !l.startsWith(prefix)) allHave = false;
     });
+    const base = numbered && !allHave ? nextOlNumber(value, lineStart) : 1;
     const newLines = lines.map((l, i) => {
-      const p = numbered ? i + 1 + '. ' : prefix;
-      if (allHave) return l.slice(p.length);
+      if (allHave) return numbered ? l.replace(olRe, '') : l.slice(prefix.length);
+      const p = numbered ? base + i + '. ' : prefix;
       return p + l.replace(/^(#{1,6}\s|>\s|[-*+]\s\[[ x]\]\s|[-*+]\s|\d+\.\s)/, '');
     });
     editor.setRangeText(newLines.join('\n'), lineStart, lineEnd, 'end');
@@ -583,8 +596,9 @@ greet('Markdown');
   }
 
   function exportHtml() {
-    const style = document.querySelector('link[href*="github-markdown"]').outerHTML;
     const isDark = document.documentElement.dataset.theme === 'dark';
+    const link = document.getElementById(isDark ? 'mdCssDark' : 'mdCssLight');
+    const style = link ? link.outerHTML.replace(/\sdisabled(="[^"]*")?/gi, '') : '';
     download(
       'document.html',
       `<!DOCTYPE html>
@@ -699,33 +713,57 @@ ${preview.innerHTML}
   }
 
   /* ---------- 拖动分栏 ---------- */
-  let dragging = false;
-  dragbar.addEventListener('mousedown', (e) => {
-    dragging = true;
+  function applySplit(pct) {
+    const clamped = Math.min(85, Math.max(15, pct));
+    paneEdit.style.flex = '1 1 ' + clamped + '%';
+  }
+  function isDragging() {
+    return dragbar.classList.contains('dragging');
+  }
+  function endDrag() {
+    if (!isDragging()) return;
+    dragbar.classList.remove('dragging');
+    document.body.classList.remove('resizing');
+    document.body.style.cursor = '';
+    const pct = parseFloat(paneEdit.style.flex.split(' ')[2]) || 50;
+    localStorage.setItem('md-editor:split', String(Math.round(pct)));
+  }
+  dragbar.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    // 捕获指针：后续所有事件（含移出窗口）都派发给 dragbar，松手必定触发 pointerup
+    dragbar.setPointerCapture(e.pointerId);
     dragbar.classList.add('dragging');
+    document.body.classList.add('resizing'); // 拖动期间禁用文本选择，避免页面跟着滚动/选中
     document.body.style.cursor = 'col-resize';
     e.preventDefault();
   });
-  window.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
+  dragbar.addEventListener('pointermove', (e) => {
+    if (!isDragging()) return;
     const rect = workspace.getBoundingClientRect();
-    const pct = Math.min(85, Math.max(15, ((e.clientX - rect.left) / rect.width) * 100));
-    paneEdit.style.flex = '1 1 ' + pct + '%';
+    applySplit(((e.clientX - rect.left) / rect.width) * 100);
   });
-  window.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    dragbar.classList.remove('dragging');
-    document.body.style.cursor = '';
-    const pct = parseFloat(paneEdit.style.flex.split(' ')[2]);
-    localStorage.setItem('md-editor:split', String(Math.round(pct)));
-  });
+  dragbar.addEventListener('pointerup', endDrag);
+  dragbar.addEventListener('pointercancel', endDrag);
+  window.addEventListener('blur', endDrag); // 窗口失焦兜底复位
 
   /* ---------- 主题切换 ---------- */
+  // 预览区（github-markdown-css）与代码高亮（highlight.js）的明暗样式表按主题启停，
+  // 它们本身只跟随系统 prefers-color-scheme，无法感知应用内手动切换
+  const themeSheets = ['mdCssLight', 'mdCssDark', 'hljsCssLight', 'hljsCssDark'];
+  function applyCodeTheme(theme) {
+    const dark = theme === 'dark';
+    themeSheets.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.disabled = dark ? !id.endsWith('Dark') : !id.endsWith('Light');
+      if (!el.disabled) el.media = 'all'; // 兜底：异步加载 trick 可能尚未还原 media
+    });
+  }
   function setTheme(theme) {
     document.documentElement.dataset.theme = theme;
     themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
     localStorage.setItem(THEME_KEY, theme);
+    applyCodeTheme(theme);
   }
   themeToggle.addEventListener('click', () =>
     setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark')

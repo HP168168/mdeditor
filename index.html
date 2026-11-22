@@ -37,8 +37,11 @@
   <link rel="preload" href="style.css?v=1.4" as="style" />
 
   <!-- 性能：非关键 CSS 异步加载（预览区首屏为空，不阻塞渲染） -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" media="print" onload="this.media='all'" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="print" onload="this.media='all'" />
+  <!-- 预览区样式按应用主题切换：light 默认启用，dark 由 JS 控制启停 -->
+  <link rel="stylesheet" id="mdCssLight" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown-light.min.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" id="mdCssDark" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown-dark.min.css" media="print" onload="this.media='all'" disabled />
+  <link rel="stylesheet" id="hljsCssLight" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" id="hljsCssDark" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="print" onload="this.media='all'" disabled />
   <noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" />

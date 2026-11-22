@@ -342,8 +342,14 @@ body {
   cursor: col-resize;
   background: var(--dragbar);
   transition: background 0.15s;
+  touch-action: none; /* 触屏拖动时由指针事件接管，禁止浏览器手势 */
 }
 .dragbar.dragging { background: var(--dragbar-hover); }
+
+/* 拖动分栏期间：禁止选中文本，防止页面跟随滚动 */
+body.resizing { user-select: none; }
+body.resizing #editor,
+body.resizing #preview { user-select: none; }
 
 /* ---------- 状态栏 ---------- */
 .statusbar {
